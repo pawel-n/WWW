@@ -11,7 +11,7 @@ class Gmina(models.Model):
 class Obwód(models.Model):
     name = models.TextField()
     gmina = models.ForeignKey(Gmina)
-    carts = models.IntegerField(default=0)
+    cards = models.IntegerField(default=0)
     voters = models.IntegerField(default=0)
 
     def __str__(self):
