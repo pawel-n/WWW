@@ -28,10 +28,14 @@ def obwód(request, obwód_id):
         voters_old = int(request.POST['voters_old'])
         voters = int(request.POST['voters'])
 
-        if cards_old != obwód.cards:
-            messages.error(request, "Wystąpił konflikt zapisu dla ilości kart do głosowania.")
+        if cards < 0 or voters < 0:
+            messages.error(request, "Liczby muszą być nieujemne.")
+        elif cards_old != obwód.cards:
+            messages.error(request, "Wystąpił konflikt zapisu dla ilości kart do głosowania: "
+                                    "zapisujesz %d a ktoś inny zapisał %d." % cards % obwód.cards)
         elif voters_old != obwód.voters:
-            messages.error(request, "Wystąpił konflikt zapisu dla ilości uprawnionych do głosowania.")
+            messages.error(request, "Wystąpił konflikt zapisu dla ilości uprawnionych do głosowania: "
+                                    "zapisujesz %d a ktoś inny zapisał %d." % voters % obwód.voters)
         else:
             obwód.cards = cards
             obwód.voters = voters
@@ -40,5 +44,7 @@ def obwód(request, obwód_id):
 
     except KeyError:
         messages.error(request, "Proszę wypełnić wszystkie pola.")
+    except ValueError:
+        messages.error(request, "Niepoprawne dane.")
 
     return HttpResponseRedirect(reverse('gmina', args=(obwód.gmina_id,)))
