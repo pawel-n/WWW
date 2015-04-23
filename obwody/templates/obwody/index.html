@@ -1,0 +1,9 @@
+{% if gminy %}
+    <ul>
+    {% for gmina in gminy %}
+        <li><a href="{% url 'gmina' gmina.id %}">{{ gmina.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Brak gmin.</p>
+{% endif %}
